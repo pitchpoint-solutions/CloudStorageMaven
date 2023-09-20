@@ -1,0 +1,51 @@
+name: Build CloudStorageMaven
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate With Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v1
+      with:
+        workload_identity_provider: 'projects/689767042199/locations/global/workloadIdentityPools/github-wif-pool/providers/githubwif'
+        service_account: 'github-actions@xpps-dev-infrastructure.iam.gserviceaccount.com'
+        token_format: 'access_token'
+        access_token_lifetime: '500s'
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
+      with:
+        versionSpec: '5.x'
+
+    - name: Setup maven settings
+      uses: s4u/maven-settings-action@v2.8.0
+      with:
+        servers: |
+          [{
+            "id": "artifact-registry",
+            "username": "oauth2accesstoken",
+            "password": "${{ steps.auth.outputs.access_token }}"
+          }]
+
+    - name: Build With Maven
+      run: |
+        version=$(git describe --tags --exact-match || git symbolic-ref -q --short HEAD)
+        mvn versions:set -DnewVersion=$version
+        mvn clean install deploy
