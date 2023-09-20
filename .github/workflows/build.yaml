@@ -47,5 +47,5 @@ jobs:
     - name: Build With Maven
       run: |
         version=$(git describe --tags --exact-match || git symbolic-ref -q --short HEAD)
-        mvn versions:set -DnewVersion=$version
+        mvn versions:set -DnewVersion=${version:1} # Strip the 'v' off version
         mvn clean deploy
