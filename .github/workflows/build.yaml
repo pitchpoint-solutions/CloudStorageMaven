@@ -48,4 +48,4 @@ jobs:
       run: |
         version=$(git describe --tags --exact-match || git symbolic-ref -q --short HEAD)
         mvn versions:set -DnewVersion=$version
-        mvn clean install deploy
+        mvn clean deploy
