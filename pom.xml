@@ -113,7 +113,10 @@
     </build>
 
     <modules>
+        <module>CloudStorageCore</module>
         <module>GoogleStorageWagon</module>
+        <module>AzureStorageWagon</module>
+        <module>S3StorageWagon</module>
     </modules>
 
 </project>
