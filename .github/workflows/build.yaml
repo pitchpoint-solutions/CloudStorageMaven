@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  setup:
-    name: Setup
+  Build:
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
