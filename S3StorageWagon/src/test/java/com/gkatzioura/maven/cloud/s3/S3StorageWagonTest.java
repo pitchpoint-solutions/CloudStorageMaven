@@ -35,7 +35,7 @@ public class S3StorageWagonTest extends WagonTestCase {
         return "s3";
     }
 
-    @Override
+    // @Override
     protected int getTestRepositoryPort() {
         return 0;
     }

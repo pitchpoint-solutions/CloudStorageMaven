@@ -71,11 +71,7 @@ public class GoogleStorageRepository {
     }
 
     private final Storage createStorage() throws IOException {
-        if(keyPath.isPresent()) {
-            return storageFactory.createWithKeyFile(keyPath.get());
-        } else {
-            return storageFactory.createDefault();
-        }
+        return storageFactory.createDefault();
     }
 
     public void copy(String resourceName, File destination) throws ResourceDoesNotExistException {
